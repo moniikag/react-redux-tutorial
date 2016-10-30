@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { combineReducers, createStore } from 'redux'
+import { combineReducers } from 'redux'
 
 import { todos, visibilityFilter } from './todoAppReducers'
 
@@ -8,8 +8,6 @@ const todoApp = combineReducers({
   todos,
   visibilityFilter
 })
-
-const store = createStore(todoApp)
 
 const { Component } = React
 
@@ -113,6 +111,26 @@ const TodoList = ({
   </ul>
 )
 
+const getVisibleTodos = (
+  todos,
+  filter
+) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos
+    case 'SHOW_COMPLETED':
+      return todos.filter(
+        t => t.completed
+      )
+    case 'SHOW_ACTIVE':
+      return todos.filter(
+        t => !t.completed
+      )
+    default:
+      return todos
+  }
+}
+
 class VisibleTodoList extends Component {
   render() {
     const props = this.props
@@ -137,6 +155,7 @@ class VisibleTodoList extends Component {
   }
 }
 
+let nextTodoId = 0
 
 const AddTodo = () => {
   let input
@@ -160,28 +179,6 @@ const AddTodo = () => {
   )
 }
 
-const getVisibleTodos = (
-  todos,
-  filter
-) => {
-  switch (filter) {
-    case 'SHOW_ALL':
-      return todos
-    case 'SHOW_COMPLETED':
-      return todos.filter(
-        t => t.completed
-      )
-    case 'SHOW_ACTIVE':
-      return todos.filter(
-        t => !t.completed
-      )
-    default:
-      return todos
-  }
-}
-
-let nextTodoId = 0
-
 const TodoApp = () => (
   <div>
     <AddTodo />
@@ -190,6 +187,8 @@ const TodoApp = () => (
   </div>
 )
 
+import { createStore } from 'redux'
+const store = createStore(todoApp)
 
 ReactDOM.render(
   <TodoApp />,
