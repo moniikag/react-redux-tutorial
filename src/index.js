@@ -138,9 +138,7 @@ class VisibleTodoList extends Component {
 }
 
 
-const AddTodo = ({
-  onAddClick
-}) => {
+const AddTodo = () => {
   let input
   return (
     <div>
@@ -148,7 +146,11 @@ const AddTodo = ({
         input = node
       }} />
       <button onClick={() => {
-        onAddClick(input.value)
+        store.dispatch({
+          type: 'ADD_TODO',
+          id: nextTodoId++,
+          text: input.value
+        })
         input.value = ''
       }}
       >
@@ -185,15 +187,7 @@ const TodoApp = ({
   visibilityFilter
 }) => (
   <div>
-    <AddTodo
-      onAddClick={text =>
-        store.dispatch({
-          type: 'ADD_TODO',
-          id: nextTodoId++,
-          text
-        })
-      }
-    />
+    <AddTodo />
     <VisibleTodoList />
     <Footer />
   </div>
