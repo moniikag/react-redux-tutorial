@@ -1,5 +1,12 @@
 import React from 'react'
 
+const toggleTodo = (id) => {
+  return {
+    type: 'TOGGLE_TODO',
+    id
+  }
+}
+
 const Todo = ({
   onClick,
   completed,
@@ -63,10 +70,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onTodoClick: (id) =>
-      dispatch({
-        type: 'TOGGLE_TODO',
-        id
-      })
+      dispatch(toggleTodo(id))
   }
 }
 
