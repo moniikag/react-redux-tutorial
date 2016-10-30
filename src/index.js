@@ -33,6 +33,7 @@ const Link = ({
 
 class FilterLink extends Component {
   componentDidMount() {
+    const { store } = this.props
     this.unsubscribe = store.subscribe(() =>
       this.forceUpdate()
     )
@@ -44,6 +45,7 @@ class FilterLink extends Component {
 
   render() {
     const props = this.props
+    const { store } = this.props
     const state = store.getState()
 
     return (
@@ -62,18 +64,21 @@ class FilterLink extends Component {
   }
 }
 
-const Footer = () => (
+const Footer = ({ store }) => (
   <p>
     Show:{' '}
     <FilterLink filter='SHOW_ALL'
+      store={store}
     >
       All
     </FilterLink>{' '}
     <FilterLink filter='SHOW_ACTIVE'
+      store={store}
     >
       Active
     </FilterLink>{' '}
     <FilterLink filter='SHOW_COMPLETED'
+      store={store}
     >
       Completed
     </FilterLink>{' '}
@@ -132,10 +137,21 @@ const getVisibleTodos = (
 }
 
 class VisibleTodoList extends Component {
+  componentDidMount() {
+    const { store } = this.props
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    )
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
   render() {
     const props = this.props
+    const { store } = props
     const state = store.getState()
-
     return (
       <TodoList
         todos={
@@ -157,7 +173,7 @@ class VisibleTodoList extends Component {
 
 let nextTodoId = 0
 
-const AddTodo = () => {
+const AddTodo = ({ store }) => {
   let input
   return (
     <div>
@@ -179,18 +195,17 @@ const AddTodo = () => {
   )
 }
 
-const TodoApp = () => (
+const TodoApp = ({ store }) => (
   <div>
-    <AddTodo />
-    <VisibleTodoList />
-    <Footer />
+    <AddTodo store={store} />
+    <VisibleTodoList store={store} />
+    <Footer store={store} />
   </div>
 )
 
 import { createStore } from 'redux'
-const store = createStore(todoApp)
 
 ReactDOM.render(
-  <TodoApp />,
+  <TodoApp store={createStore(todoApp)} />,
   document.getElementById('root')
 )
