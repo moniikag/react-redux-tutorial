@@ -113,6 +113,31 @@ const TodoList = ({
   </ul>
 )
 
+class VisibleTodoList extends Component {
+  render() {
+    const props = this.props
+    const state = store.getState()
+
+    return (
+      <TodoList
+        todos={
+          getVisibleTodos(
+            state.todos,
+            state.visibilityFilter
+          )
+        }
+        onTodoClick={id =>
+          store.dispatch({
+            type: 'TOGGLE_TODO',
+            id
+          })
+        }
+      />
+    )
+  }
+}
+
+
 const AddTodo = ({
   onAddClick
 }) => {
@@ -169,21 +194,8 @@ const TodoApp = ({
         })
       }
     />
-    <TodoList
-      todos={
-        getVisibleTodos(
-          todos,
-          visibilityFilter
-        )
-      }
-      onTodoClick={id =>
-        store.dispatch({
-          type: 'TOGGLE_TODO',
-          id
-        })
-      }
-    />
-  <Footer />
+    <VisibleTodoList />
+    <Footer />
   </div>
 )
 
