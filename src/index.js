@@ -52,6 +52,21 @@ const Todo = ({
   </li>
 )
 
+const TodoList = ({
+  todos,
+  onTodoClick
+}) => (
+  <ul>
+    {todos.map(todo =>
+      <Todo
+        key={todo.id}
+        {...todo}
+        onClick={() => onTodoClick(todo.id)}
+      />
+    )}
+  </ul>
+)
+
 const getVisibleTodos = (
   todos,
   filter
@@ -96,20 +111,15 @@ class TodoApp extends Component {
         >
           Add Todo
         </button>
-        <ul>
-          {visibleTodos.map(todo =>
-            <Todo
-              key={todo.id}
-              {...todo}
-              onClick={() => {
-                store.dispatch({
-                  type: 'TOGGLE_TODO',
-                  id: todo.id
-                })
-              }}
-            />
-          )}
-        </ul>
+        <TodoList
+          todos={visibleTodos}
+          onTodoClick={id =>
+            store.dispatch({
+              type: 'TOGGLE_TODO',
+              id
+            })
+          }
+        />
         <p>
           Show:{' '}
           <FilterLink filter='SHOW_ALL'
