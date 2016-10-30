@@ -59,9 +59,10 @@ const getVisibleTodos = (
 let nextTodoId = 0
 class TodoApp extends Component {
   render() {
+    const { todos, visibilityFilter } = this.props
     const visibleTodos = getVisibleTodos(
-      this.props.todos,
-      this.props.visibilityFilter
+      todos,
+      visibilityFilter
     )
     return (
       <div>
@@ -100,17 +101,17 @@ class TodoApp extends Component {
         <p>
           Show:{' '}
           <FilterLink filter='SHOW_ALL'
-                      currentFilter={this.props.visibilityFilter}
+                      currentFilter={visibilityFilter}
           >
             All
           </FilterLink>{' '}
           <FilterLink filter='SHOW_ACTIVE'
-                      currentFilter={this.props.visibilityFilter}
+                      currentFilter={visibilityFilter}
           >
             Active
           </FilterLink>{' '}
           <FilterLink filter='SHOW_COMPLETED'
-                      currentFilter={this.props.visibilityFilter}
+                      currentFilter={visibilityFilter}
           >
             Completed
           </FilterLink>{' '}
