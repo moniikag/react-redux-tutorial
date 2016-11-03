@@ -24,8 +24,21 @@ const TodoApp = () => (
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
+const persistedState = {
+  todos: [{
+    id: '0',
+    text: 'Welcome back!',
+    completed: false
+  }]
+}
+
+const store = createStore(
+  todoApp,
+  persistedState,
+)
+
 ReactDOM.render(
-  <Provider store={createStore(todoApp)}>
+  <Provider store={store}>
     <TodoApp />
   </Provider>,
   document.getElementById('root')
