@@ -1,11 +1,9 @@
 import React from 'react'
 
-const toggleTodo = (id) => {
-  return {
-    type: 'TOGGLE_TODO',
-    id
-  }
-}
+const toggleTodo = (id) => ({
+  type: 'TOGGLE_TODO',
+  id
+})
 
 const Todo = ({
   onClick,
@@ -58,21 +56,17 @@ const getVisibleTodos = (
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    todos: getVisibleTodos(
-      state.todos,
-      state.visibilityFilter
-    )
-  }
-}
+const mapStateToProps = (state) => ({
+  todos: getVisibleTodos(
+    state.todos,
+    state.visibilityFilter
+  )
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onTodoClick: (id) =>
-      dispatch(toggleTodo(id))
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  onTodoClick: (id) =>
+    dispatch(toggleTodo(id))
+})
 
 import { connect } from 'react-redux'
 
