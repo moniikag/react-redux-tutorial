@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { combineReducers } from 'redux'
+import throttle from 'lodash/throttle'
 
 import { todos, visibilityFilter } from './todoAppReducers'
 
@@ -35,11 +36,12 @@ const store = createStore(
 
 // save state on any store change
 // save only data (todos), not the application state (filter)
-store.subscribe(() => {
+// throttle ensures that the function is not called more often than specified in ms
+store.subscribe(throttle(() => {
   saveState({
     todos: store.getState().todos
   })
-})
+}, 1000))
 
 ReactDOM.render(
   <Provider store={store}>
