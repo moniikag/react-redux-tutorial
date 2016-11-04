@@ -34,8 +34,11 @@ const store = createStore(
 )
 
 // save state on any store change
+// save only data (todos), not the application state (filter)
 store.subscribe(() => {
-  saveState(store.getState())
+  saveState({
+    todos: store.getState().todos
+  })
 })
 
 ReactDOM.render(
