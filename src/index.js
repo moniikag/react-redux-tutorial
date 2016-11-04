@@ -8,6 +8,8 @@ import AddTodo from './AddTodo'
 import Footer from './Footer'
 import VisibleTodoList from './VisibleTodoList'
 
+import { loadState, saveState } from './localStorage'
+
 const todoApp = combineReducers({
   todos,
   visibilityFilter
@@ -24,18 +26,17 @@ const TodoApp = () => (
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
-const persistedState = {
-  todos: [{
-    id: '0',
-    text: 'Welcome back!',
-    completed: false
-  }]
-}
+const persistedState = loadState()
 
 const store = createStore(
   todoApp,
   persistedState,
 )
+
+// save state on any store change
+store.subscribe(() => {
+  saveState(store.getState())
+})
 
 ReactDOM.render(
   <Provider store={store}>
