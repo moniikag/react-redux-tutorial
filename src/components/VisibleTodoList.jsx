@@ -51,10 +51,10 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, { params }) => ({
   todos: getVisibleTodos(
     state.todos,
-    ownProps.params.filter || 'all',
+    params.filter || 'all',
   )
 })
 
