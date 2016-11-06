@@ -32,6 +32,21 @@ const todos = (state =[], action) => {
   }
 }
 
-export {
-  todos,
+export default todos
+
+export const getVisibleTodos = (state, filter) => {
+  switch (filter) {
+    case 'all':
+      return state
+    case 'completed':
+      return state.filter(
+        t => t.completed
+      )
+    case 'active':
+      return state.filter(
+        t => !t.completed
+      )
+    default:
+      return state
+  }
 }
