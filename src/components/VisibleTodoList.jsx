@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { toggleTodo } from '../actions'
 import { getVisibleTodos } from '../reducers'
+import { fetchTodos } from '../api'
+
+class VisibleTodoList extends Component {
+  componentDidMount() {
+    fetchTodos(this.props.filter).then(todos =>
+      console.log(this.props.filter, todos)
+    )
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.filter !== prevProps.filter) {
+      fetchTodos(this.props.filter).then(todos =>
+        console.log(this.props.filter, todos)
+      )
+    }
+  }
+
+  render() {
+    return <TodoList {...this.props} />
+  }
+}
 
 const Todo = ({
   onClick,
@@ -35,14 +56,18 @@ const TodoList = ({
   </ul>
 )
 
-const mapStateToProps = (state, { params }) => ({
-  todos: getVisibleTodos(state, params.filter || 'all')
-})
+const mapStateToProps = (state, { params }) => {
+  const filter = params.filter || 'all'
+  return {
+    todos: getVisibleTodos(state, filter),
+    filter
+  }
+}
 
-const VisibleTodoList = withRouter(connect(
+VisibleTodoList = withRouter(connect(
   mapStateToProps,
   // we can just pass a configuration object when payload is the same
   { onTodoClick: toggleTodo }
-)(TodoList))
+)(VisibleTodoList))
 
 export default VisibleTodoList
