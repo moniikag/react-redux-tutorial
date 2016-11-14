@@ -20,13 +20,26 @@ const addLoggingToDispatch = (store) => {
   }
 }
 
+const addPromiseSupportToDispatch = (store) => {
+  const rawDispatch = store.dispatch
+  return (action) => {
+    if (typeof action.then === 'function') {
+      return action.then(rawDispatch)
+    }
+    return rawDispatch(action)
+  }
+}
+
 const configureStore =() => {
   const persistedState = loadState()
   const store = createStore(todoApp, persistedState)
 
+  store.dispatch = addPromiseSupportToDispatch(store)
+
   if (process.env.NODE_ENV !== 'production') {
     store.dispatch = addLoggingToDispatch(store)
   }
+
 
   // save state on any store change
   // save only data (todos), not the application state (filter)
