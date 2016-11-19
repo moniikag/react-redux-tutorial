@@ -1,17 +1,5 @@
 import { combineReducers } from 'redux'
-
-const byId = (state ={}, action) => {
-  switch (action.type) {
-    case 'RECEIVE_TODOS':
-      const nextState = { ...state }
-      action.response.forEach(todo => {
-        nextState[todo.id] = todo
-      })
-      return nextState
-    default:
-      return state
-  }
-}
+import byId, * as fromById from './byId'
 
 const allIds = (state = [], action) => {
   if (action.filter !== 'all') {
