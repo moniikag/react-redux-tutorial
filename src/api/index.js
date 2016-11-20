@@ -21,7 +21,9 @@ const delay = (ms) =>
 
 export const fetchTodos = (filter) =>
   delay(500).then(() => {
-    throw new Error('Boom!')
+    if (Math.random() > 0.5) {
+      throw new Error('Boom!')
+    }
 
     switch (filter) {
       case 'all':
